@@ -1,0 +1,686 @@
+<mvc:View controllerName="ZCCM.ZCCM.controller.mocform" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m"
+xmlns:f="sap.f" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Shell id="shell">
+		<App>
+			<pages>
+				<Page id="page" title="MOC Form">
+					<content>
+						
+					
+			<f:DynamicPage id="dynamicPageId">
+				<f:title>
+					<f:DynamicPageTitle>
+						<f:heading>
+						<Title text="Management Of Change Creation"/>
+					
+					</f:heading>
+					</f:DynamicPageTitle>
+				</f:title>
+				<f:header>
+				<f:DynamicPageHeader pinnable="true">
+					<layout:HorizontalLayout allowWrapping="true">
+						<layout:VerticalLayout class="sapUiMediumMarginEnd">
+							 <ObjectAttribute title="MOC Number" text="{mocmodel>/empdetails/MocNum}"/>
+							<ObjectAttribute title="Status" text="{mocmodel>/empdetails/Status}"/> 
+				           <!--  <ObjectAttribute title="Document No" text="12345"/> -->
+							</layout:VerticalLayout>
+                             </layout:HorizontalLayout>
+					
+			</f:DynamicPageHeader>
+			</f:header>
+				<f:content>
+					<VBox>
+					<form:SimpleForm editable="true" layout="ResponsiveGridLayout" title="MAKE OF CHANGE FORM">
+					<Label  design="Bold" required="true" text="MOC Title"/>
+							<TextArea rows="2" width="100%" id="mt"  editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}" value="{mocmodel>/empdetails/MocTitle}" />
+					</form:SimpleForm>
+						<form:SimpleForm editable="true" layout="ResponsiveGridLayout">
+							<core:Title text=""/>
+							
+							
+							
+							<Label design="Bold" required="true" text="Plant or Unit"/>
+						    <Input width="60%" id="pu"  value="{mocmodel>/empdetails/Persarea}" 
+						    editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"  
+						    showValueHelp="true" valueHelpRequest="plantunit" liveChange="onsuggest_plant" suggestionItems="{path:'plantdata>/'}" showSuggestion="true" growing="true">
+						   <suggestionItems>
+				<core:Item text="{plantdata>plant}" />
+			</suggestionItems>
+		</Input>
+							
+							<Label design="Bold" required="true" text="Significant (Yes/No)"/>
+					<ComboBox
+					editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"
+					width="60%" id="significant" 
+				items="{
+					 path:'values>/',
+					 templateShareable:false
+					 }" selectionChange="significant_change" selectedKey="{mocmodel>/empdetails/Significant}">
+				<core:Item  text="{values>y}"  key="{values>y}"/>
+					</ComboBox>
+							
+							
+						
+							
+							
+							
+							
+							<Label  design="Bold" required="true" text="Change Type"/>
+							
+						<ComboBox
+							editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"
+					width="60%" id="changetype" 
+				items="{
+					 path:'/empdetails',
+					 sorter:{path:'type'}
+					 }" selectionChange="onselect_changetype"  value="{mocmodel>/empdetails/ChangeType}">
+				<core:Item  text="{type}" />
+					</ComboBox>
+                            <Label design="Bold" required="true" text="Employee Number"/>
+							<Input editable="false"  width="60%" id="empno"  value="{mocmodel>/empdetails/Pernr}" 
+							enable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"
+							showSuggestion="true" showValueHelp="true" valueHelpRequest="empchangetype" 
+							liveChange="onsuggest_empno" suggestionItems="{path:'empdata>/'}" suggestionItemSelected="onselect_empno">
+									   <suggestionItems>
+				<core:Item key="{empdata>Vorna}" text="{empdata>Pernr}" />
+			</suggestionItems>
+		</Input>
+							<Label design="Bold" required="true" text="Employee Name"/>
+							<Input  id="empname" value="{mocmodel>/empdetails/EmpNameId}" width="60%" editable="false" enable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"/>
+							 <Label design="Bold" required="true" text="New Department"  />
+							<Input width="60%"   id="ndept" editable="false"  showValueHelp="true" value="{mocmodel>/empdetails/NewDept}" enabled="{= ${mocmodel>/loginMode} === 'E'}"
+							 liveChange="onsuggest_dept" suggestionItems="{path:'depdata1>/'}" showSuggestion="true" valueHelpRequest="newdepartment">
+							 <suggestionItems>
+				<core:Item key="{depdata1>Btext}" text="{depdata1>Dept}"/>
+			</suggestionItems>
+		</Input>
+							<Label design="Bold" required="true" text="Company Code"/>
+							<Input width="60%" id="cocode" editable="false" value="{mocmodel>/empdetails/Bukrs}" enabled="{= ${mocmodel>/loginMode} === 'E'}"/>
+							
+							
+							<core:Title text=""/>
+							<Label design="Bold" required="true" text="Department"/>
+							<Input width="60%" id="dept" editable="false" value="{mocmodel>/empdetails/Dept}" enabled="{= ${mocmodel>/loginMode} === 'E'}"/>
+							
+							
+							<Label design="Bold" required="true" text="MOC Date"/>
+							 <Input width="60%" id="mocdate"  editable="false" value="{path:'mocmodel>/empdetails/MocDate',type:'sap.ui.model.type.DateTime',
+								formatOptions:{
+								pattern:'yyyy/MM/dd'
+								}
+								}" 
+							enabled="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"/> 
+							<!-- <DatePicker width="60%" id="mocdate"  value="{mocmodel>/empdetails/MocDate}" 
+							editable="true"/> -->
+							
+							
+							<Label design="Bold" required="true" text="Kind of change"/>
+							<ComboBox
+							editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"
+					width="60%" id="kc"
+				items="{
+					 path:'values>/',
+					 templateShareable:false
+					 }" selectionChange="kind_change"  selectedKey="{mocmodel>/empdetails/KindChange}">
+				<core:Item  text="{values>perm}" key="{values>perm}" />
+					</ComboBox>
+					<Label design="Bold" text="From Date"  required="true"/>
+					<!-- <DatePicker width="60%" id="datefrom" value="{mocmodel>/empdetails/DateFrom}" visible="{= (${mocmodel>/loginMode} === 'E' &amp;&amp;${mocmodel>/empdetails/KindChange} === 'Temporary' )||(${mocmodel>/loginMode} === 'A' &amp;&amp;${mocmodel>/empdetails/KindChange} === 'Temporary' )}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"/>--> 
+				
+					 <Label design="Bold" text="From Date"  required="true"/>
+					<DatePicker width="60%" id="datefrom" value="{path:'mocmodel>/empdetails/DateFrom',type:'sap.ui.model.type.DateTime',
+								formatOptions:{
+								pattern:'yyyy/MM/dd'
+								}
+								}" visible="{= (${mocmodel>/loginMode} === 'E' &amp;&amp;${mocmodel>/empdetails/KindChange} === 'Temporary' )||(${mocmodel>/loginMode} === 'A' &amp;&amp;${mocmodel>/empdetails/KindChange} === 'Temporary' )}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"/> 
+						<Label design="Bold" text="To Date"  required="true"/>
+					<DatePicker width="60%" id="todate"  value="{path:'mocmodel>/empdetails/DateTo',type:'sap.ui.model.type.DateTime',
+								formatOptions:{
+								pattern:'yyyy/MM/dd'
+								}
+								}" visible="{= (${mocmodel>/loginMode} === 'E' &amp;&amp;${mocmodel>/empdetails/KindChange} === 'Temporary' )||(${mocmodel>/loginMode} === 'A' &amp;&amp;${mocmodel>/empdetails/KindChange} === 'Temporary' )}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"/>
+			
+		
+							<Label design="Bold" required="true" text="Planned"/>
+						<ComboBox
+						editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"
+					width="60%" id="planned"
+				items="{
+					 path:'values>/',
+					 templateShareable:false
+					 }" selectionChange="kind_change" selectedKey="{mocmodel>/empdetails/Planned}">
+				<core:Item  text="{values>y}" key="{values>y}" />
+					</ComboBox>
+					
+							
+						
+		
+				
+							 </form:SimpleForm>	
+							 <form:SimpleForm editable="true" layout="ResponsiveGridLayout">
+							 <Label design="Bold"   text="Brief Role" id="brf" required="{= (${mocmodel>/empdetails/ChangeType} === 'Personal' )}"/>
+							<TextArea  width="100%"   id="briefrole" value="{mocmodel>/empdetails/BriefRole}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"
+							visible="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Personal' )|| 
+							(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational' ||
+							${mocmodel>/empdetails/ChangeType} === 'Procedures or system of working and relevant documentation' ||
+							${mocmodel>/empdetails/ChangeType} === 'Operational activities/processes' ||
+							${mocmodel>/empdetails/ChangeType} === 'Known hazards and risks' ||
+							${mocmodel>/empdetails/ChangeType} === 'Plant and equipment' ||
+							${mocmodel>/empdetails/ChangeType} === 'Product and materials' ||
+							${mocmodel>/empdetails/ChangeType} === 'Established processes and management systems')||(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === '')
+							||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Personal' )||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational' )}"/>
+								 <Label design="Bold"   text="Present Problem" required="true"/>
+							<TextArea id="PresentPrblm" width="100%" value="{mocmodel>/empdetails/PresentPrblm}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"
+							
+							visible="{=  (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational'
+							||
+							${mocmodel>/empdetails/ChangeType} === 'Procedures or system of working and relevant documentation' ||
+							${mocmodel>/empdetails/ChangeType} === 'Operational activities/processes' ||
+							${mocmodel>/empdetails/ChangeType} === 'Known hazards and risks' ||
+							${mocmodel>/empdetails/ChangeType} === 'Plant and equipment' ||
+							${mocmodel>/empdetails/ChangeType} === 'Product and materials' ||
+							${mocmodel>/empdetails/ChangeType} === 'Established processes and management systems')
+							||(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === '')||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational' )}"/>
+							<Label design="Bold" required="true" text="Purpose of Change"/>
+							<TextArea  width="100%" id="purposechange" value="{mocmodel>/empdetails/PurposeChange}" 
+							editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| 
+							(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"  
+							visible="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Personal' )
+							|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational'
+							||
+							${mocmodel>/empdetails/ChangeType} === 'Procedures or system of working and relevant documentation' ||
+							${mocmodel>/empdetails/ChangeType} === 'Operational activities/processes' ||
+							${mocmodel>/empdetails/ChangeType} === 'Known hazards and risks' ||
+							${mocmodel>/empdetails/ChangeType} === 'Plant and equipment' ||
+							${mocmodel>/empdetails/ChangeType} === 'Product and materials' ||
+							${mocmodel>/empdetails/ChangeType} === 'Established processes and management systems')
+							||(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === '')
+							||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Personal' )
+							||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational' )}"/>
+							
+								<Label design="Bold" required="true" text="Reasons if Significant Change"/>
+							<TextArea  width="100%" id="reasons" value="{mocmodel>/empdetails/Reasons}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"
+							visible="{=  (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/Significant} === 'Yes')||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/Significant} === 'Yes')}"/>
+							<Label design="Bold" required="true" text="Details of Change"/>
+							<TextArea  width="100%" id="detailschange" value="{mocmodel>/empdetails/DetailsChange}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"
+							visible="{=  (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational'
+							||
+							${mocmodel>/empdetails/ChangeType} === 'Personal' ||
+							${mocmodel>/empdetails/ChangeType} === 'Procedures or system of working and relevant documentation' ||
+							${mocmodel>/empdetails/ChangeType} === 'Operational activities/processes' ||
+							${mocmodel>/empdetails/ChangeType} === 'Known hazards and risks' ||
+							${mocmodel>/empdetails/ChangeType} === 'Plant and equipment' ||
+							${mocmodel>/empdetails/ChangeType} === 'Product and materials' ||
+							${mocmodel>/empdetails/ChangeType} === 'Established processes and management systems')||(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === '')
+							||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational' )}"/>
+						     <Label design="Bold" required="true" text="Benefits Expected"/>
+							<TextArea  width="100%" id="benifits" value="{mocmodel>/empdetails/Benifits}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"
+							
+							visible="{=  (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational'
+							||
+							${mocmodel>/empdetails/ChangeType} === 'Procedures or system of working and relevant documentation' ||
+							${mocmodel>/empdetails/ChangeType} === 'Operational activities/processes' ||
+							${mocmodel>/empdetails/ChangeType} === 'Known hazards and risks' ||
+							${mocmodel>/empdetails/ChangeType} === 'Plant and equipment' ||
+							${mocmodel>/empdetails/ChangeType} === 'Product and materials' ||
+							${mocmodel>/empdetails/ChangeType} === 'Established processes and management systems')||(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === '')
+							||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational' )}"/>
+						<!-- ////////////////////////////////////////////////////////////////////////////////////-->
+						
+							  <!-- <Label design="Bold"  required="true" text="Brief Role(Final)" id="brfF"/>
+							<TextArea  width="100%"   id="briefroleF" value="{mocmodel>/empdetails/BriefRoleF}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F' )}"
+							visible="{=(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational') &amp;&amp; (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F')
+							|| (${mocmodel>/loginMode} === 'E'  &amp;&amp; ${mocmodel>/empdetails/Closure} === 'X')
+						     ||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational') &amp;&amp;
+							(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/Closure} === 'X')}"/>
+							
+							 <Label design="Bold"   text="Present Problem(Final)" required="true"/>
+							<TextArea id="PresentPrblmF" width="100%" value="{mocmodel>/empdetails/PresentPrblm_F}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F' )
+							||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/Sav_sub} === 'F')}"
+							
+							visible="{=(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational') &amp;&amp; (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F')	
+							|| (${mocmodel>/loginMode} === 'E'   &amp;&amp;${mocmodel>/empdetails/Closure} === 'X')	||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/Sav_sub} === 'F')
+							||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational') &amp;&amp; (${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/Closure} === 'X')}"/>
+							
+							<Label design="Bold" required="true" text="Purpose of Change(Final)"/>
+							<TextArea  width="100%" id="purposechangeF" value="{mocmodel>/empdetails/PurposeChangeF}" 
+							editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F' ) }"
+							visible="{=(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational') &amp;&amp; (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F')
+							|| (${mocmodel>/loginMode} === 'E'   &amp;&amp;${mocmodel>/empdetails/Closure} === 'X')||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/Sav_sub} === 'F')
+							||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational') &amp;&amp; (${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/Closure} === 'X')}"/>
+							
+							
+							 <Label design="Bold" required="true" text="Reasons if Significant Change(Final)"/>
+							<TextArea  width="100%" id="reasonsF" value="{mocmodel>/empdetails/ReasonsF}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F' )}"
+							visible="{=(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational') &amp;&amp; (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F')
+			                || (${mocmodel>/loginMode} === 'E'   &amp;&amp;${mocmodel>/empdetails/Closure} === 'X')||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/Sav_sub} === 'F')
+							||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational') &amp;&amp; (${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/Closure} === 'X')}"/>
+							<Label design="Bold" required="true" text="Details of Change(Final)"/>
+							<TextArea  width="100%" id="detailschangeF" value="{mocmodel>/empdetails/DetailsChangeF}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F' )}"
+							visible="{=(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational') &amp;&amp; (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F')
+							|| (${mocmodel>/loginMode} === 'E'   &amp;&amp;${mocmodel>/empdetails/Closure} === 'X')||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/Sav_sub} === 'F')
+							||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational') &amp;&amp; (${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/Closure} === 'X')}"/>
+						     <Label design="Bold" required="true" text="Benefits Expected(Final)"/>
+							<TextArea  width="100%" id="benifitsF" value="{mocmodel>/empdetails/BenifitsF}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F' )}"
+							
+							visible="{=(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational') &amp;&amp; (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F')
+							|| (${mocmodel>/loginMode} === 'E'   &amp;&amp;${mocmodel>/empdetails/Closure} === 'X')||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/Sav_sub} === 'F')
+							||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/ChangeType} === 'Organizational') &amp;&amp; (${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/Closure} === 'X')}"/> -->
+							
+							
+							 <Label design="Bold"   text="Benefits Expected" required="true"/>
+							<TextArea id="BenefitsExpectedF" width="100%" value="{mocmodel>/empdetails/BenifitsExc}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F' )
+							||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/Sav_sub} === 'F')}"
+							
+							visible="{=(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F' &amp;&amp; ${mocmodel>/empdetails/ChangeType}!=='Personal' &amp;&amp; ${mocmodel>/empdetails/Closure}==='X')	
+							
+							||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/ChangeType} !== 'Personal' &amp;&amp; ${mocmodel>/Sav_sub} === 'F' &amp;&amp; ${mocmodel>/empdetails/Closure}==='X')}"/>
+							
+							 <Label design="Bold"   text="Benefits Accrued(Tangible)" required="true"/>
+							<TextArea id="BenefitsAccruedF" width="100%" value="{mocmodel>/empdetails/BenifitsTan}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F' )
+							||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/Sav_sub} === 'F')}"
+							
+							visible="{=(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F' &amp;&amp; ${mocmodel>/empdetails/ChangeType}!=='Personal' &amp;&amp; ${mocmodel>/empdetails/Closure}==='X')	
+							
+							||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/ChangeType} !== 'Personal' &amp;&amp; ${mocmodel>/Sav_sub} === 'F' &amp;&amp; ${mocmodel>/empdetails/Closure}==='X')}"/>
+							
+							
+							<Label design="Bold"   text="Benefits Accrued(In Tangible)" required="true"/>
+							<TextArea id="BenefitsAccruedTangible" width="100%" value="{mocmodel>/empdetails/BenifitsIn}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F' )
+							||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/Sav_sub} === 'F')}"
+							
+							visible="{=(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F' &amp;&amp; ${mocmodel>/empdetails/ChangeType}!=='Personal' &amp;&amp; ${mocmodel>/empdetails/Closure}==='X')	
+							
+							||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/ChangeType} !== 'Personal' &amp;&amp; ${mocmodel>/Sav_sub} === 'F' &amp;&amp; ${mocmodel>/empdetails/Closure}==='X')}"/>
+							
+						  </form:SimpleForm>
+						   		 
+						   
+						   		
+						   	 <Table id="actiontable" items="{path:'mocmodel>/actiontable'}"   width="100%" growing="true" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}">
+				           	<headerToolbar>
+								<OverflowToolbar>
+										<Title text="Action Plan and Target Date"/>
+										<ToolbarSpacer/>
+								<Button text="ADD" type="Emphasized" icon="sap-icon://add"  press="addactionplan" enabled="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"/>
+								<Button text="Delete" type="Emphasized" icon="sap-icon://delete" press="deleteactionplan" enabled="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"/>
+								</OverflowToolbar>
+								</headerToolbar>
+						       <infoToolbar>
+								<Toolbar>
+							   <Text text=" Add minimum 3 records"/>
+		                 	</Toolbar>
+							</infoToolbar>
+						   		<columns>
+						   			<!-- <Column>
+						   			<Label design="Bold" text="S.NO"/>
+						   			</Column> -->
+						   			<Column hAlign="Begining" demandPopin="true" minScreenWidth="Desktop" width="100%">
+						   				<header>
+						   			<Label design="Bold" text="Action Plan"/>
+						   			</header>
+						   			</Column>
+						   			
+						   			<Column hAlign="Center" width="30%">
+						   				<header>
+						   			<Label design="Bold" text="Target Date" />
+						   			</header>
+						   			</Column>
+						   		</columns>
+						   		<items>
+						   			<ColumnListItem>
+						   				<cells>
+						   				
+						   				<Text text="{mocmodel>ActionPlan}"/>
+						   				<Text text="{path:'mocmodel>TargetDate', type:'sap.ui.model.type.DateTime',
+								formatOptions:{
+								pattern:'dd/MM/yyyy'
+								}
+								}"/> 
+								
+						   				</cells>
+						   			</ColumnListItem>
+						   		</items>
+						   	</Table>
+						   	
+						   
+						  
+						 
+						   	
+						   	<Table   id="checklisttable" width="100%"  items="{path:'mocmodel>/checklisttable'}" 
+						   	  	templateShareable="false" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}">
+						   		<headerToolbar>
+								<OverflowToolbar>
+										<Title text="Check List For Change"/>
+								</OverflowToolbar>
+							</headerToolbar>
+							
+							
+						   		<columns>
+						   			 <Column hAlign="Begining"  demandPopin="true" minScreenWidth="Desktop" width="15%" >
+						   			<Label design="Bold" text="Sr.No" />
+						   			</Column> 
+						   			<Column hAlign="Begining"  demandPopin="true" minScreenWidth="Desktop" width="40%">
+						   			<Label text=" Potential Changes" design="Bold" wrapping="true"/>
+						   			</Column>
+						   			<Column hAlign="Begining"  demandPopin="true" minScreenWidth="Desktop" width="30%">
+						   			<Label text="Yes/No" design="Bold" wrapping="true"/>
+						   			</Column>
+						   			<Column demandPopin="true" minScreenWidth="Desktop" width="100%" hAlign="Begining">
+						   			<Label  design="Bold" text="Comments"  wrapping="true"/>
+						   			</Column>
+						   		
+						   		</columns>
+						   		<items>
+						   			<ColumnListItem>
+						   				<cells>
+						   				<Text text="{mocmodel>SrNo}"/>
+						   				<Text text="{mocmodel>PotenChang}"/>
+					<ComboBox 
+					editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"
+					width="60%" id="changetype1"
+				items="{path:'values>/',templateShareable:false}" selectedKey="{mocmodel>YesNo}" selectionChange="onchecklistchange" >
+				<core:Item key="{values>y}" text="{values>y}"/>
+			</ComboBox>
+						   				
+						   				<TextArea growing="true" width="100%" id="cmt" value="{mocmodel>Comments}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"/>
+						   				
+						   				
+						   				</cells>
+						   			</ColumnListItem>
+						   		</items>
+						   	</Table>
+						   
+						   
+						   
+						   	<Table   width="100%"  id="fileupload" items="{path:'mocmodel>/fileupload'}">
+						   		<headerToolbar>
+								<OverflowToolbar class="sapMTB">
+										<Title text="Documents Upload /Documents Download "/>
+										<ToolbarSpacer/>
+										<!-- <Button text=" AttachFile"  press="fileuplaod" type="Emphasized"/> -->
+								</OverflowToolbar>
+							</headerToolbar>
+							<infoToolbar>
+								<Toolbar>
+								<Text text="Upload of Document(Minimum 20MB Each)"/>
+								
+								</Toolbar>
+							</infoToolbar>
+							
+						   		<columns>
+						   			<Column hAlign="Begining" demandPopin="true" minScreenWidth="Desktop" >
+						   			<Label   design="Bold" text="Sr.No"/>
+						   			</Column>
+						   			<Column hAlign="Center" demandPopin="true" minScreenWidth="Desktop" >
+						   			<Label   design="Bold" text="File Name"/>
+						   			</Column>
+						   			<Column hAlign="Center"  visible="{=  (${mocmodel>/loginMode} === 'E' &amp;&amp;${mocmodel>/empdetails/Closure} !== 'X'&amp;&amp; ${mocmodel>/Sav_sub} !== 'T')}">
+						   			<Label  design="Bold" text="Type"/>
+						   			</Column>
+						   			<Column hAlign="Center" visible="{=  (${mocmodel>/loginMode} === 'E' &amp;&amp;${mocmodel>/empdetails/Closure} !== 'X'&amp;&amp; ${mocmodel>/Sav_sub} !== 'T')}">
+						   			<Label  design="Bold" text="Upload"/>
+						   			</Column>
+						   			
+						   			<Column hAlign="Center" visible="{=  (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} !== 'C' &amp;&amp; ${mocmodel>/Sav_sub} !== 'S')||(${mocmodel>/empdetails/Closure}=== 'X')||(${mocmodel>/loginMode} === 'A')}">
+						   			<Label  design="Bold" text="Type" />
+						   			
+						   			</Column>
+						   			<Column hAlign="Center" visible="{=  ( ${mocmodel>/loginMode} === 'E'  &amp;&amp;${mocmodel>/Sav_sub} !== 'C'&amp;&amp; ${mocmodel>/Sav_sub} !== 'S')||(${mocmodel>/empdetails/Closure}=== 'X')||(${mocmodel>/loginMode} === 'A')}">
+						   			<Label  design="Bold" text="Download "/>
+						   			</Column>
+						   			
+						   		    <Column hAlign="Center"
+						   		    visible="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F'&amp;&amp;${mocmodel>/empdetails/Closure} === 'X')}">
+						   			<Label  design="Bold" text="Type_closure"/>
+						   			</Column>
+						   			<Column hAlign="Center"
+						   			 visible="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F' &amp;&amp;${mocmodel>/empdetails/Closure} === 'X')}">
+						   			<Label  design="Bold" text="Upload_closure"/>
+						   			</Column>
+						   			 <Column hAlign="Center"
+						   		    visible="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} !== 'F' &amp;&amp; (${mocmodel>/empdetails/Closure} === 'X')) ||(${mocmodel>/loginMode} === 'A'&amp;&amp; ${mocmodel>/empdetails/Closure} === 'X')}">
+						   			<Label  design="Bold" text="Type_closure"
+						   			/>
+						   			</Column>
+						   			<Column hAlign="Center"
+						   			 visible="{=  (${mocmodel>/loginMode} === 'E'  &amp;&amp; ${mocmodel>/empdetails/Closure} === 'X' &amp;&amp;${mocmodel>/Sav_sub} !== 'F')||(${mocmodel>/loginMode} === 'A' &amp;&amp; ${mocmodel>/empdetails/Closure} === 'X')}">
+						   			<Label  design="Bold" text="Download_closure"/>
+						   			
+						   			</Column>
+						   		
+						   		</columns>
+						   		<items>
+						   			<ColumnListItem>
+						   				<cells>
+						   				<Text text="{mocmodel>SrNo}"/>
+						   				<Text text="{mocmodel>Docname}"/>
+						   				<Text text="{mocmodel>DocDesc}"/>
+						   				
+						   				<Button type="Emphasized" press="flupload" id="file" icon="sap-icon://upload" size ="1rem"  enabled="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}"
+						   				visible="{=  (${mocmodel>/loginMode} === 'E'  &amp;&amp;${mocmodel>/empdetails/Closure} !== 'X'&amp;&amp; ${mocmodel>/Sav_sub} !== 'T')}"/>
+						   				<Text text="{mocmodel>DocDesc}"/>
+						   				<Button type="Emphasized" press="fldownload" id="file1" icon="sap-icon://download" size ="1rem" visible="{=  (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} !== 'S'&amp;&amp; ${mocmodel>/Sav_sub} !== 'C')||(${mocmodel>/empdetails/Closure} === 'X')||${mocmodel>/loginMode} === 'A'}"/>
+						   			     <Text text="{mocmodel>DocDescF}"/>
+						   				<Button type="Emphasized" press="flupload1" id="file2" icon="sap-icon://upload" size ="1rem"   visible="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F' &amp;&amp; (${mocmodel>/empdetails/Closure} === 'X'))}"
+						   				enabled="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F') || (${mocmodel>/loginMode} === 'A')}"/>
+						   			    <Text text="{mocmodel>DocDescF}"/>
+						   				<Button type="Emphasized" press="fldownload2" id="file3" icon="sap-icon://download" size ="1rem" visible="{=  ( ${mocmodel>/empdetails/Closure} === 'X' &amp;&amp;${mocmodel>/Sav_sub} !== 'F')}"
+						   				enabled="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} !== 'S' ) || (${mocmodel>/loginMode} === 'E'  &amp;&amp; ${mocmodel>/empdetails/Closure} === 'X')|| ${mocmodel>/loginMode} === 'A' }"/>
+						   				
+						   			     
+						   			     </cells>
+						   			</ColumnListItem>
+						   		</items>
+						   	</Table>
+						
+						   
+						  <!--  <Table  width="100%"  id="fileupload1" items="{path:'mocmodel>/fileupload'}" visible="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'T' ) || (${mocmodel>/loginMode} === 'E'  &amp;&amp; ${mocmodel>/empdetails/Closure} === 'X') || ${mocmodel>/loginMode} === 'A'}" >
+						   		<headerToolbar>
+								<OverflowToolbar >
+										<Title text="Documents Download"/>
+										<ToolbarSpacer/>
+										
+								</OverflowToolbar>
+							</headerToolbar>
+							<infoToolbar>
+								<Toolbar>
+								<Text text="Download of Document(Minimum 20MB Each)"/>
+								
+								</Toolbar>
+							</infoToolbar>
+							
+						   		<columns>
+						   			<Column hAlign="Begining" demandPopin="true" minScreenWidth="Desktop" >
+						   			<Label   design="Bold" text="Sr.No"/>
+						   			</Column>
+						   			<Column hAlign="Begining" demandPopin="true" minScreenWidth="Desktop" >
+						   			<Label   design="Bold" text="File Name"/>
+						   			</Column>
+						   			<Column hAlign="Center">
+						   			<Label  design="Bold" text="Type"/>
+						   			
+						   			</Column>
+						   			<Column hAlign="Center">
+						   			<Label  design="Bold" text="Download"/>
+						   			</Column>
+						   			 <Column hAlign="Center"
+						   		    visible="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F') || (${mocmodel>/loginMode} === 'E'  &amp;&amp; ${mocmodel>/empdetails/Closure} === 'X')||(${mocmodel>/loginMode} === 'A')&amp;&amp; (${mocmodel>/empdetails/Closure} === 'X')}">
+						   			<Label  design="Bold" text="Type"
+						   			/>
+						   			</Column>
+						   			<Column hAlign="Center"
+						   			 visible="{=  (${mocmodel>/loginMode} === 'E'  &amp;&amp; ${mocmodel>/empdetails/Closure} === 'X')||(${mocmodel>/loginMode} === 'A')&amp;&amp; (${mocmodel>/empdetails/Closure} === 'X')}">
+						   			<Label  design="Bold" text="Download"/>
+						   			</Column>
+						   		 
+						   		</columns>
+						   		<items>
+						   			<ColumnListItem>
+						   				<cells>
+						   				<Text text="{mocmodel>SrNo}"/>
+						   				<Text text="{mocmodel>Docname}"/>
+						   				<Text text="{mocmodel>DocDesc}"/>
+						   				<Button type="Emphasized" press="fldownload" id="file1" icon="sap-icon://download" size ="1rem" />
+						   				<Text text="{mocmodel>DocDescF}"/>
+						   				<Button type="Emphasized" press="fldownload2" id="file3" icon="sap-icon://download" size ="1rem" enabled="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'T' ) || (${mocmodel>/loginMode} === 'E'  &amp;&amp; ${mocmodel>/empdetails/Closure} === 'X')|| ${mocmodel>/loginMode} === 'A' }"/>
+						   			     </cells>
+						   			</ColumnListItem>
+						   		</items>
+						   	</Table> -->
+						   	
+						    	
+						    	
+						    	
+						    	
+						    	<Table  id="orgtable" width="100%" items="{path:'mocmodel>/orgapprtable'}"  mode="None" growingScrollToLoad="true" visible="{= (${mocmodel>/loginMode} === 'E')}" >
+						   		<headerToolbar>
+								<OverflowToolbar>
+										<Title text="Organizational Approval Details"/>
+								</OverflowToolbar>
+							</headerToolbar>
+							
+							
+						   		<columns>
+						   		
+						   		
+						   			<Column demandPopin="true" minScreenWidth="Phone" hAlign="Center">
+						   			<Label text="Type" design="Bold" wrapping="true"/>
+						   			</Column>
+						   				<Column hAlign="Center" demandPopin="true" minScreenWidth="Desktop">
+						   			<Label   design="Bold" text="Name and Id" wrapping="true"/>
+						   			</Column>
+						   			
+						   		</columns>
+						   		<items>
+						   			<ColumnListItem>
+						   				<cells>
+						   				
+						   				
+						   				
+						   				<Text text="{mocmodel>Type}"/>
+						   				<Text text="{mocmodel>ApprNamId}"/>
+						   				
+						   		       </cells>
+						   			</ColumnListItem>
+						   		</items>
+						   	</Table>
+						   	
+						    	
+						    	
+						    	
+						    	
+						   	
+						   	<Table   width="100%" items="{path:'mocmodel>/Approverstable'}"  mode="None" growingScrollToLoad="true" visible="{= ${mocmodel>/loginMode} === 'A'}" editable="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')}">
+						   		<headerToolbar>
+								<OverflowToolbar>
+										<Title text="Approvers Details"/>
+								</OverflowToolbar>
+							</headerToolbar>
+							
+							
+						   		<columns>
+						   			
+						   		
+						   			<Column demandPopin="true" minScreenWidth="Phone" hAlign="Center">
+						   			<Label text="Type" design="Bold" wrapping="true"/>
+						   			</Column>
+						   				<Column hAlign="Center" demandPopin="true" minScreenWidth="Desktop">
+						   			<Label   design="Bold" text="Name and Id" wrapping="true"/>
+						   			</Column>
+						   			
+						   		</columns>
+						   		<items>
+						   			<ColumnListItem>
+						   				<cells>
+						   				
+						   				
+						   				
+						   				<Text text="{mocmodel>Type}"/>
+						   				<Text text="{mocmodel>ApprNamId}"/>
+						   			
+						   		       </cells>
+						   			</ColumnListItem>
+						   		</items>
+						   	</Table>
+						   	
+						   	<OverflowToolbar>
+										<Title text=" Created By:{mocmodel>/empdetails/EmpNameId}"/>
+								</OverflowToolbar>
+								
+						   	  	<Table   width="100%" items="{path:'mocmodel>/Historytable'}"  mode="None" growingScrollToLoad="true">
+						   		<headerToolbar>
+						   		
+								<OverflowToolbar>
+										<Title text="MOC History Deatils"/>
+								</OverflowToolbar>
+							</headerToolbar>
+							
+							
+						   		<columns>
+						   		
+						   			<Column  hAlign="Begining" minScreenWidth="Desktop" demandPopin="true" width="30%">
+						   				<Label text=" Type"  design="Bold" />
+						   			</Column>
+						   			<Column hAlign="Center" demandPopin="true" minScreenWidth="Desktop" width="30%">
+						   			<Label  design="Bold" text="Name and Id" wrapping="true"/>
+						   			</Column>
+						   			<Column hAlign="Center" demandPopin="true" minScreenWidth="Desktop" width="100%">
+						   			<Label design="Bold" text="Comments" wrapping="true"/>
+						   			</Column>
+						   			<Column hAlign="Center" demandPopin="true" minScreenWidth="Desktop" width="30%">
+						   			<Label   design="Bold" text="Status" wrapping="true"/>
+						   			</Column>
+						   			<Column demandPopin="true" minScreenWidth="Phone" hAlign="Center" width="30%">
+						   			<Label text="Date" design="Bold" wrapping="true" />
+						   			</Column>
+						   		
+						   		</columns>
+						   		<items>
+						   			<ColumnListItem>
+						   				<cells>
+						   				<Text text="{mocmodel>Type}"/>
+						   				
+						   				<Text text="{mocmodel>ApprNamId}"/>
+						   				
+						   				<Text text="{mocmodel>Comments}"/>
+						   				<Text text="{mocmodel>Zstatus}"/>
+						   			<Text text="{path:'mocmodel>Zdate', type:'sap.ui.model.type.DateTime',
+								formatOptions:{
+								pattern:'yyyy/MM/dd'
+								}
+								}"/> 
+						   		       </cells>
+						   			</ColumnListItem>
+						   		</items>
+						   	</Table>
+						   	 
+						   	
+						   	<form:SimpleForm editable="true" title="Approvals" visible="{= ${mocmodel>/loginMode} === 'A'}" layout="ResponsiveGridLayout">
+						   	<Label  text="Approval Comments" design="Bold" required="true"/>
+						   	<TextArea   rows="5" width="100%" id="acmt" />
+						   <!-- 	<Label text="Date"/>
+						   	<DatePicker width="50%" id="dap"/> -->
+						   	</form:SimpleForm>
+						   </VBox>
+					
+				</f:content>
+		</f:DynamicPage>
+		</content>
+					<footer>
+				<OverflowToolbar>
+				
+					<ToolbarSpacer/>
+					<Button type="Emphasized" text="Save" icon="sap-icon://save" press="mocsave" visible="{= ${mocmodel>/loginMode} === 'E'}" enabled="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')||(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F')}"/>
+					<Button type="Emphasized" text="Submit"  press="mocsubmit" icon="sap-icon://create" visible="{= ${mocmodel>/loginMode} === 'E'}" enabled="{= (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'C' )|| (${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'S')||(${mocmodel>/loginMode} === 'E' &amp;&amp; ${mocmodel>/Sav_sub} === 'F')}"/>
+					<Button type="Success" text="Approve" press="approve" icon="sap-icon://accept" visible="{= ${mocmodel>/loginMode} === 'A'}"/>
+					<Button type="Reject" text="Reject"  icon="sap-icon://decline" press="reject" visible="{= ${mocmodel>/loginMode} === 'A'}"/>
+				</OverflowToolbar>
+			</footer>
+			
+		
+				</Page>
+			</pages>
+		</App>
+	</Shell>
+</mvc:View>
